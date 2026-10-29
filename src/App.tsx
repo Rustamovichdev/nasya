@@ -1,26 +1,12 @@
-import type { FC } from "react"
+import { Suspense } from "react";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/route";
 
-interface Idata{
-  id:number;
-  title:string
+const App = () => {
+  return <main>
+    <Suspense fallback="Loading...">
+      <RouterProvider router={router}/>
+    </Suspense>
+  </main>
 }
-const data:Idata[] = [
-  {
-    id:1,
-    title:"novidir-1"
-  },
-  {
-    id:2,
-    title:"novidir-2"
-  },
-  {
-    id:3,
-    title:"novidir-3"
-  }
-]
-const App:FC = () => {
-   return <main>
-    {data.map(item => <p key={item.id}>{item.title}</p>)}
-   </main>
-}
-export default App
+export default App;
