@@ -68,7 +68,7 @@ const routes = [
         index: true,
         element: <Navigate to="/dashboard" replace />,
       },
-      ...menuRoutes.map(({ path, element: Page, roles }) => ({
+      ...menuRoutes.map(({ path, element: Page, }) => ({
         path,
         element: (
            Page
