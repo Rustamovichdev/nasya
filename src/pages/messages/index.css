@@ -1,0 +1,704 @@
+
+/* ==============================
+   SMS PAGE
+============================== */
+
+.sms-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 28px;
+  color: #172033;
+  background: #f8fafc;
+  font-family: Inter, sans-serif;
+}
+
+/* HEADER */
+
+.sms-page-header,
+.sms-section-header,
+.sms-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sms-page-header {
+  margin-bottom: 28px;
+}
+
+.sms-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.sms-eyebrow-dot {
+  width: 8px;
+  height: 8px;
+  background: #16a34a;
+  border-radius: 50%;
+}
+
+.sms-page-header h1 {
+  margin: 0 0 9px;
+  color: #172033;
+  font-size: 29px;
+  font-weight: 750;
+}
+
+.sms-page-header p,
+.sms-section-header p {
+  margin: 0;
+  color: #8993a4;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* BUTTONS */
+
+.sms-header-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sms-primary-button,
+.sms-outline-button,
+.sms-cancel-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.sms-primary-button {
+  border: 1px solid #2563eb;
+  color: white;
+  background: #2563eb;
+}
+
+.sms-primary-button:hover {
+  background: #1d4ed8;
+}
+
+.sms-outline-button {
+  color: #334155;
+  background: white;
+  border: 1px solid #e2e8f0;
+}
+
+.sms-outline-button:hover {
+  background: #f1f5f9;
+}
+
+.sms-cancel-button {
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+/* STATISTICS */
+
+.sms-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 25px;
+}
+
+.sms-stat-card {
+  padding: 20px;
+  background: white;
+  border: 1px solid #e8edf3;
+  border-radius: 13px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.025);
+}
+
+.sms-stat-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #8993a4;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.sms-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+}
+
+.sms-stat-icon.green {
+  color: #16a34a;
+  background: #dcfce7;
+}
+
+.sms-stat-icon.blue {
+  color: #2563eb;
+  background: #dbeafe;
+}
+
+.sms-stat-icon.purple {
+  color: #9333ea;
+  background: #f3e8ff;
+}
+
+.sms-stat-icon.orange {
+  color: #ea580c;
+  background: #ffedd5;
+}
+
+.sms-stat-value {
+  margin: 17px 0 10px;
+  color: #172033;
+  font-size: 27px;
+  font-weight: 750;
+}
+
+.sms-stat-description {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* CONTENT SECTION */
+
+.sms-content-section {
+  margin-bottom: 24px;
+  padding: 23px;
+  background: white;
+  border: 1px solid #e8edf3;
+  border-radius: 14px;
+}
+
+.sms-section-header {
+  margin-bottom: 22px;
+}
+
+.sms-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+  color: #2563eb;
+}
+
+.sms-section-title h2 {
+  margin: 0;
+  color: #172033;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+/* SEARCH AND FILTER */
+
+.sms-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.sms-search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 340px;
+  min-height: 42px;
+  padding: 0 12px;
+  color: #94a3b8;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.sms-search input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #172033;
+  font-size: 12px;
+}
+
+.sms-search button {
+  display: flex;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.sms-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #64748b;
+}
+
+.sms-filter-group button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 7px;
+  color: #64748b;
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.sms-filter-group button.selected {
+  color: #2563eb;
+  background: #eff6ff;
+  font-weight: 700;
+}
+
+/* TEMPLATE CARDS */
+
+.sms-template-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.sms-template-card {
+  padding: 19px;
+  border: 1px solid #e8edf3;
+  border-radius: 11px;
+  transition: 0.2s;
+}
+
+.sms-template-card:hover {
+  border-color: #bfdbfe;
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.05);
+}
+
+.sms-template-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.sms-template-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: #2563eb;
+  background: #eff6ff;
+  border-radius: 9px;
+}
+
+/* BADGES */
+
+.sms-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.sms-badge.active {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.sms-badge.inactive {
+  color: #64748b;
+  background: #f1f5f9;
+}
+
+.sms-badge.pending {
+  color: #b45309;
+  background: #fef3c7;
+}
+
+.sms-template-card h3 {
+  margin: 0 0 10px;
+  color: #1e293b;
+  font-size: 15px;
+}
+
+.sms-template-body {
+  min-height: 55px;
+  margin: 0 0 16px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.sms-template-meta {
+  display: flex;
+  justify-content: space-between;
+  padding: 11px 0;
+  border-top: 1px solid #f1f5f9;
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* TEMPLATE ACTIONS */
+
+.sms-template-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.sms-template-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 9px;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  color: #475569;
+  background: white;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.sms-template-actions button:hover {
+  background: #f8fafc;
+}
+
+.sms-template-actions button.delete {
+  margin-left: auto;
+  color: #dc2626;
+}
+
+/* EMPTY STATES */
+
+.sms-empty-state,
+.sms-history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 15px;
+  text-align: center;
+}
+
+.sms-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  margin-bottom: 15px;
+  color: #94a3b8;
+  background: #f1f5f9;
+  border-radius: 14px;
+}
+
+.sms-empty-state h3,
+.sms-history-empty h3 {
+  margin: 0 0 8px;
+  color: #334155;
+  font-size: 15px;
+}
+
+.sms-empty-state p,
+.sms-history-empty p {
+  margin: 0 0 17px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+/* HISTORY TABLE */
+
+.sms-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.sms-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.sms-table th {
+  padding: 13px;
+  color: #94a3b8;
+  background: #f8fafc;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.sms-table td {
+  padding: 15px 13px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #475569;
+  font-size: 12px;
+}
+
+.sms-table-message {
+  max-width: 300px;
+  overflow-wrap: anywhere;
+}
+
+/* MODALS */
+
+.sms-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(15, 23, 42, 0.55);
+  /* backdrop-filter: blur(4px); */
+  overflow-y: auto;
+}
+
+.sms-modal {
+  width: 100%;
+  max-width: 510px;
+  max-height: 90vh;
+  padding: 25px;
+  overflow-y: auto;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.sms-bulk-modal {
+  max-width: 570px;
+}
+
+.sms-modal-header {
+  margin-bottom: 23px;
+}
+
+.sms-modal-header h2 {
+  margin: 0 0 6px;
+  color: #172033;
+  font-size: 19px;
+}
+
+.sms-modal-header p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.sms-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 8px;
+  color: #64748b;
+  background: #f1f5f9;
+  cursor: pointer;
+}
+
+/* MODAL FORM */
+
+.sms-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.sms-modal form label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 5px;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sms-modal form input,
+.sms-modal form select,
+.sms-modal form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  color: #334155;
+  background: white;
+  font-family: inherit;
+  font-size: 12px;
+  transition: 0.2s;
+  resize: vertical;
+}
+
+.sms-modal form input:focus,
+.sms-modal form select:focus,
+.sms-modal form textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.sms-character-count {
+  margin-top: -5px;
+  color: #94a3b8;
+  font-size: 10px;
+  text-align: right;
+}
+
+.sms-field-hint {
+  margin-top: -5px;
+  color: #94a3b8;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* ERROR AND SUCCESS */
+
+.sms-error,
+.sms-success,
+.sms-demo-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.sms-error {
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.sms-success {
+  color: #15803d;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.sms-demo-warning {
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+}
+
+/* MODAL ACTIONS */
+
+.sms-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 17px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+  .sms-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .sms-page {
+    padding: 17px;
+  }
+
+  .sms-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sms-page-header h1 {
+    font-size: 23px;
+  }
+
+  .sms-header-actions {
+    width: 100%;
+  }
+
+  .sms-header-actions button {
+    flex: 1;
+  }
+
+  .sms-template-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sms-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sms-search {
+    width: 100%;
+  }
+
+  .sms-filter-group {
+    flex-wrap: wrap;
+  }
+
+  .sms-content-section {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sms-stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sms-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sms-template-actions {
+    flex-wrap: wrap;
+  }
+
+  .sms-modal {
+    padding: 18px;
+  }
+
+  .sms-modal-actions {
+    flex-wrap: wrap;
+  }
+
+  .sms-modal-actions button {
+    flex: 1;
+  }
+}
