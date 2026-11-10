@@ -1,0 +1,192 @@
+
+.voice-page {
+  padding: 24px;
+  background: #f8f7f7;
+  min-height: 100vh;
+  color: #1e293b;
+}
+
+.voice-heading {
+  margin-bottom: 24px;
+}
+
+.voice-heading h1 {
+  margin: 0 0 8px;
+  font-size: 25px;
+}
+
+.voice-heading p {
+  color: #64748b;
+}
+
+.voice-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.voice-card,
+.voice-section {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.voice-card span {
+  font-size: 25px;
+}
+
+.voice-card p {
+  color: #64748b;
+}
+
+.voice-card h2 {
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+
+.voice-section {
+  margin-bottom: 24px;
+}
+
+.voice-section h2 {
+  font-size: 19px;
+  margin-top: 0;
+}
+
+.voice-search {
+  width: 100%;
+  max-width: 450px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin: 12px 0 20px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.voice-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.voice-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.voice-table-wrap th {
+  background: #f8fafc;
+  color: #64748b;
+  text-align: left;
+}
+
+.voice-table-wrap th,
+.voice-table-wrap td {
+  padding: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.voice-debt {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.voice-call-btn,
+.voice-result-btn {
+  border: none;
+  padding: 9px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.voice-call-btn {
+  background: #16a34a;
+  color: white;
+}
+
+.voice-result-btn {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.voice-delete {
+  border: none;
+  background: #fee2e2;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.voice-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0007;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.voice-modal {
+  background: white;
+  padding: 24px;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.voice-modal label {
+  display: block;
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+
+.voice-modal select,
+.voice-modal textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.voice-modal textarea {
+  margin-top: 8px;
+  min-height: 90px;
+}
+
+.voice-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.voice-modal-actions button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.voice-modal-actions button:last-child {
+  background: #16a34a;
+  color: white;
+}
+
+@media (max-width: 700px) {
+  .voice-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .voice-page {
+    padding: 12px;
+  }
+}
