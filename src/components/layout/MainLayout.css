@@ -1,0 +1,83 @@
+/* ===== ASOSIY LAYOUT ===== */
+
+.app-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #f5f7fb;
+}
+
+.app-content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 14px;
+  width: 0;
+  min-width: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 14px;
+  overflow: hidden;
+}
+
+.app-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  border-radius: 14px;
+  background: #fff;
+}
+
+/* ===== TABLET VA TELEFON SIDEBAR ===== */
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 75px !important;
+    min-width: 75px !important;
+    flex: 0 0 75px !important;
+    padding: 15px 10px !important;
+  }
+
+  .sidebar-brand {
+    justify-content: center !important;
+    padding: 5px 0 25px !important;
+  }
+
+  .sidebar-brand-text,
+  .store-card,
+  .sidebar-section-title,
+  .menu-title,
+  .menu-count {
+    display: none !important;
+  }
+
+  .sidebar-menu-item {
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+}
+
+/* ===== MOBIL ===== */
+
+@media (max-width: 600px) {
+  .app-content {
+    gap: 9px;
+    padding: 8px;
+  }
+
+  .app-main {
+    border-radius: 11px;
+  }
+}
+
+/* ===== KICHIK EKRAN ===== */
+
+@media (max-width: 380px) {
+  .app-content {
+    gap: 7px;
+    padding: 6px;
+  }
+}
