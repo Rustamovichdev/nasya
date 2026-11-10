@@ -1,323 +1,212 @@
-
-/* ========================================
-   1. GLOBAL SETTINGS
-======================================== */
-
-* {
-  box-sizing: border-box;
-}
+/* ===== HEADER UMUMIY ===== */
 
 .main-header,
 .customers-header,
 .debt-modal {
   font-family: Inter, Arial, sans-serif;
+  box-sizing: border-box;
 }
 
-/* ========================================
-   2. DASHBOARD HEADER
-======================================== */
+.main-header *,
+.customers-header *,
+.debt-modal * {
+  box-sizing: border-box;
+}
 
 .main-header {
   width: 100%;
-  min-height: 104px;
-  padding: 18px 26px;
-
+  min-width: 0;
+  min-height: 96px;
+  padding: 16px 22px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 25px;
-
-  background: #ffffff;
+  gap: 20px;
+  background: #fff;
   border: 1px solid #edf0f5;
-  border-radius: 18px;
-
-  box-shadow: 0 5px 25px rgba(25, 45, 80, 0.06);
-
+  border-radius: 17px;
+  box-shadow: 0 5px 25px rgba(25,45,80,.06);
   position: relative;
-  z-index: 10;
+  z-index: 1;
 }
 
-/* LOGO */
+/* ===== LOGO ===== */
 
 .header-logo {
   display: flex;
   align-items: center;
-  gap: 13px;
-  flex-shrink: 0;
-  min-width: 235px;
+  gap: 12px;
+  flex: 0 0 195px;
+  min-width: 0;
 }
 
 .logo-icon {
-  width: 57px;
-  height: 57px;
-
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  color: white;
-  background: linear-gradient(135deg, #06a77d, #008b65);
-  border-radius: 16px;
+  color: #fff;
+  background: linear-gradient(135deg,#06a77d,#008b65);
+  border-radius: 15px;
 }
 
-.logo-text h2 {
+.logo-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.logo-text {
+  min-width: 0;
+}
+
+.logo-text h1 {
   margin: 0;
   color: #101d3b;
-  font-size: 23px;
+  font-size: 22px;
+  line-height: 1.2;
   font-weight: 750;
+  white-space: nowrap;
 }
 
 .logo-text span {
   display: block;
-  margin-top: 4px;
+  margin-top: 5px;
   color: #8490a9;
-  font-size: 13px;
+  font-size: 12px;
+  white-space: nowrap;
 }
 
-/* DASHBOARD SEARCH */
+/* ===== SEARCH ===== */
 
 .header-search {
-  flex: 1;
+  flex: 1 1 180px;
+  min-width: 0;
   max-width: 500px;
-  min-width: 150px;
-  height: 55px;
-
+  height: 54px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
-  gap: 13px;
-
-  padding: 0 19px;
-
+  gap: 10px;
   background: #f1f3f8;
   border: 1px solid transparent;
-  border-radius: 30px;
+  border-radius: 28px;
   color: #71809f;
 }
 
 .header-search:focus-within {
-  background: #ffffff;
+  background: #fff;
   border-color: #00a779;
-  box-shadow: 0 0 0 4px rgba(0, 167, 121, 0.08);
+  box-shadow: 0 0 0 3px rgba(0,167,121,.08);
 }
 
 .header-search input {
   width: 100%;
   min-width: 0;
-  border: none;
-  outline: none;
+  border: 0;
+  outline: 0;
   background: transparent;
-  font-size: 15px;
   color: #253451;
+  font: inherit;
+  font-size: 14px;
 }
 
-/* DASHBOARD ACTIONS */
+.header-search input::placeholder {
+  color: #8994ad;
+}
+
+/* ===== HEADER TUGMALARI ===== */
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: flex-end;
+  gap: 10px;
+  flex: 0 0 auto;
+  min-width: 0;
   margin-left: auto;
-  flex-shrink: 0;
 }
 
 .excel-button,
-.new-debt-button {
-  height: 55px;
-  padding: 0 21px;
-
-  display: flex;
+.new-debt-button,
+.notification-button {
+  min-height: 50px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-
-  border-radius: 15px;
-  font-size: 15px;
+  gap: 8px;
+  padding: 0 14px;
+  border-radius: 13px;
+  font-size: 13px;
   font-weight: 650;
   white-space: nowrap;
   cursor: pointer;
-  transition: 0.2s;
+  transition: .2s ease;
 }
 
 .excel-button {
   color: #263858;
-  background: white;
+  background: #fff;
   border: 1px solid #e4e9f1;
 }
 
+.excel-button:hover {
+  background: #f5faf8;
+}
+
 .new-debt-button {
-  color: white;
-  background: linear-gradient(135deg, #08ae7d, #00976c);
-  border: none;
+  color: #fff;
+  background: linear-gradient(135deg,#08ae7d,#00976c);
+  border: 1px solid #00976c;
 }
 
 .new-debt-button:hover {
   background: #00845f;
-  transform: translateY(-2px);
 }
 
-/* ========================================
-   3. CUSTOMERS HEADER
-======================================== */
-
-.customers-header {
-  width: 100%;
-  min-height: 76px;
-  padding: 10px 22px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-
-  background: #ffffff;
-  border: 1px solid #edf0f5;
-
-  position: relative;
-  z-index: 10;
+.new-debt-plus {
+  font-size: 19px;
+  line-height: 1;
 }
 
-/* CUSTOMERS SEARCH */
-
-.customers-search {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  width: 38%;
-  max-width: 430px;
-  min-width: 150px;
-  height: 43px;
-
-  padding: 0 13px;
-
-  background: #f7f8fb;
-  border: 1px solid #e8edf3;
-  border-radius: 12px;
-}
-
-.customers-search span {
-  color: #8994ad;
-}
-
-.customers-search input {
-  width: 100%;
-  min-width: 0;
-
-  border: none;
-  outline: none;
-  background: transparent;
-
-  font-size: 13px;
-  color: #253451;
-}
-
-.customers-search input::placeholder {
-  color: #8994ad;
-}
-
-/* CUSTOMERS BUTTONS */
-
-.customers-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.customers-actions button {
-  min-height: 43px;
-  padding: 0 13px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-
-  border-radius: 11px;
-  font-size: 12px;
-  font-weight: 650;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-/* EXCEL */
-
-.compact-excel {
-  color: #34445f;
-  background: #ffffff;
-  border: 1px solid #e5eaf1;
-}
-
-.compact-excel:hover {
-  background: #f0faf6;
-  border-color: #009e72;
-}
-
-/* SMS */
-
-.compact-sms {
-  color: #34445f;
-  background: #f7f8fb;
-  border: 1px solid #e5eaf1;
-}
-
-.compact-sms:hover {
-  background: #eefaf5;
-}
-
-/* NEW DEBT */
-
-.compact-new-debt {
-  color: white;
-  background: #009e72;
-  border: 1px solid #009e72;
-}
-
-.compact-new-debt:hover {
-  background: #00845f;
-}
-
-/* NOTIFICATION */
-
-.compact-notification {
-  width: 43px;
-  padding: 0 !important;
+.notification-button {
+  width: 46px;
+  padding: 0;
   color: #52627c;
-  background: white;
-  border: 1px solid #e5eaf1;
+  background: #fff;
+  border: 1px solid #e4e9f1;
 }
 
-.compact-notification:hover {
-  background: #f0faf6;
-}
+/* ===== PROFIL ===== */
 
-/* PROFILE */
-
-.compact-profile {
+.header-profile {
   display: flex;
   align-items: center;
   gap: 9px;
-  padding-left: 12px;
+  min-width: 0;
+  padding-left: 10px;
   border-left: 1px solid #e5eaf1;
 }
 
+.header-avatar,
 .compact-avatar {
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  color: white;
-  background: linear-gradient(135deg, #087f68, #18b58b);
+  color: #fff;
+  background: linear-gradient(135deg,#087f68,#18b58b);
   border-radius: 10px;
-  font-size: 16px;
   font-weight: 700;
 }
 
+.header-profile-info {
+  min-width: 0;
+}
+
+.header-profile-info h4,
 .compact-profile-info h4 {
   margin: 0;
   color: #172541;
@@ -326,6 +215,7 @@
   white-space: nowrap;
 }
 
+.header-profile-info span,
 .compact-profile-info span {
   display: block;
   margin-top: 3px;
@@ -334,111 +224,190 @@
   white-space: nowrap;
 }
 
-/* ========================================
-   4. MODAL OVERLAY
-======================================== */
+/* ===== MIJOZLAR VA XABARLAR HEADER ===== */
+
+.customers-header {
+  width: 100%;
+  min-width: 0;
+  min-height: 76px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: #fff;
+  border: 1px solid #edf0f5;
+  border-radius: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.customers-search {
+  width: min(38%,430px);
+  min-width: 140px;
+  height: 43px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #f7f8fb;
+  border: 1px solid #e8edf3;
+  border-radius: 11px;
+}
+
+.customers-search span {
+  flex: 0 0 auto;
+}
+
+.customers-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #253451;
+  font-size: 13px;
+}
+
+.customers-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+.customers-actions button {
+  min-height: 42px;
+  padding: 0 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.compact-excel,
+.compact-sms {
+  color: #34445f;
+  background: #fff;
+  border: 1px solid #e5eaf1;
+}
+
+.compact-new-debt {
+  color: #fff;
+  background: #009e72;
+  border: 1px solid #009e72;
+}
+
+.compact-notification {
+  width: 42px;
+  padding: 0 !important;
+  color: #52627c;
+  background: #fff;
+  border: 1px solid #e5eaf1;
+}
+
+.compact-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding-left: 10px;
+  border-left: 1px solid #e5eaf1;
+}
+
+.compact-avatar {
+  width: 35px;
+  height: 35px;
+  flex-basis: 35px;
+}
+
+/* ===== MODAL ===== */
 
 .debt-modal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
-
+  z-index: 100000;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  padding: 20px;
-
-  background: rgba(15, 23, 42, 0.55);
-  /* backdrop-filter: blur(4px); */
+  padding: 18px;
+  background: rgba(15,23,42,.58);
+  overscroll-behavior: contain;
 }
-
-/* MODAL */
 
 .debt-modal {
   position: relative;
-
-  width: 100%;
-  max-width: 500px;
-  max-height: 90vh;
+  width: min(100%,500px);
+  max-height: min(90vh,850px);
   overflow-y: auto;
-
+  overflow-x: hidden;
   padding: 28px;
-
-  background: #ffffff;
+  background: #fff;
   border-radius: 18px;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
-
-  animation: modalShow 0.2s ease;
+  box-shadow: 0 15px 50px rgba(0,0,0,.18);
 }
 
 .debt-modal h2 {
-  margin: 0 0 22px;
+  margin: 0 34px 22px 0;
   color: #172541;
   font-size: 22px;
   font-weight: 700;
 }
 
-/* CLOSE BUTTON */
-
 .debt-modal-close {
   position: absolute;
-  top: 12px;
-  right: 17px;
-
-  border: none;
+  top: 10px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
   background: transparent;
-
   color: #8994ad;
-  font-size: 30px;
+  font-size: 29px;
   cursor: pointer;
 }
 
-.debt-modal-close:hover {
-  color: #172541;
-}
-
-/* FORM */
-
 .debt-form-group {
-  margin-bottom: 17px;
+  margin-bottom: 16px;
 }
 
 .debt-form-group label {
   display: block;
   margin-bottom: 7px;
-
   color: #34445f;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .debt-form-group input,
 .debt-form-group textarea {
   width: 100%;
-  padding: 12px 14px;
-
+  min-width: 0;
+  padding: 12px 13px;
   border: 1px solid #dce2eb;
   border-radius: 9px;
-  outline: none;
-
-  background: white;
+  outline: 0;
+  background: #fff;
   color: #253451;
   font-size: 14px;
-  transition: 0.2s;
 }
 
 .debt-form-group input:focus,
 .debt-form-group textarea:focus {
   border-color: #009e72;
-  box-shadow: 0 0 0 3px rgba(0, 158, 114, 0.08);
+  box-shadow: 0 0 0 3px rgba(0,158,114,.08);
 }
 
 .debt-form-group textarea {
   resize: vertical;
 }
-
-/* AMOUNT */
 
 .debt-amount-input {
   position: relative;
@@ -450,16 +419,13 @@
 
 .debt-amount-input span {
   position: absolute;
-  right: 14px;
   top: 50%;
+  right: 13px;
   transform: translateY(-50%);
-
   color: #8994ad;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
 }
-
-/* MODAL BUTTONS */
 
 .debt-form-buttons {
   display: flex;
@@ -469,76 +435,64 @@
 }
 
 .debt-form-buttons button {
-  padding: 11px 20px;
+  min-height: 42px;
+  padding: 0 18px;
   border-radius: 9px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .debt-cancel {
   color: #34445f;
-  background: white;
+  background: #fff;
   border: 1px solid #dce2eb;
 }
 
-.debt-cancel:hover {
-  background: #f5f6f8;
-}
-
 .debt-save {
-  color: white;
+  color: #fff;
   background: #009e72;
   border: 1px solid #009e72;
 }
 
-.debt-save:hover {
-  background: #00845f;
-}
+/* ===== TABLET ===== */
 
-/* ========================================
-   5. ANIMATIONS
-======================================== */
-
-@keyframes modalShow {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* ========================================
-   6. RESPONSIVE
-======================================== */
-
-@media (max-width: 1200px) {
+@media (max-width: 1100px) {
   .main-header {
-    gap: 15px;
-    padding: 15px;
+    gap: 12px;
+    padding: 14px;
   }
 
   .header-logo {
-    min-width: auto;
+    flex-basis: 175px;
+    gap: 9px;
+  }
+
+  .logo-icon {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+  }
+
+  .logo-text h1 {
+    font-size: 19px;
   }
 
   .header-actions {
-    gap: 10px;
+    gap: 7px;
   }
 
   .excel-button,
   .new-debt-button {
-    padding: 0 13px;
-    font-size: 13px;
+    min-height: 46px;
+    padding: 0 10px;
+    font-size: 11px;
   }
-}
 
-@media (max-width: 1100px) {
+  .header-profile-info h4 {
+    font-size: 11px;
+  }
+
   .customers-header {
     flex-wrap: wrap;
   }
@@ -550,96 +504,389 @@
 
   .customers-actions {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
   }
 }
 
-@media (max-width: 900px) {
+/* ===== TELEFON ===== */
+
+@media (max-width: 700px) {
   .main-header {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0,1fr) auto;
+    grid-template-areas:
+      "brand actions"
+      "search search";
+    align-items: center;
+    gap: 10px 7px;
+    min-height: 0;
+    padding: 10px;
+    border-radius: 13px;
   }
 
   .header-logo {
-    flex: 1;
-  }
-
-  .header-search {
-    order: 3;
-    max-width: none;
-    flex-basis: 100%;
-  }
-}
-
-@media (max-width: 600px) {
-  .main-header {
-    padding: 13px;
-    gap: 12px;
-    border-radius: 12px;
-  }
-
-  .logo-icon {
-    width: 45px;
-    height: 45px;
-    border-radius: 12px;
-  }
-
-  .logo-text h2 {
-    font-size: 18px;
-  }
-
-  .logo-text span {
-    font-size: 11px;
-  }
-
-  .header-actions {
+    grid-area: brand;
+    flex-basis: auto;
     gap: 8px;
   }
 
-  .header-actions button {
+  .logo-icon {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+    border-radius: 11px;
+  }
+
+  .logo-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .logo-text h1 {
+    font-size: 16px;
+  }
+
+  .logo-text span {
+    margin-top: 2px;
+    font-size: 10px;
+  }
+
+  .header-actions {
+    grid-area: actions;
+    gap: 5px;
+    margin: 0;
+  }
+
+  .excel-button {
+    display: none;
+  }
+
+  .new-debt-button {
+    min-height: 38px;
     padding: 0 9px;
+    gap: 4px;
+    border-radius: 9px;
+    font-size: 10px;
+  }
+
+  .new-debt-plus {
+    font-size: 16px;
+  }
+
+  .notification-button {
+    width: 36px;
+    min-height: 38px;
+    border-radius: 9px;
+  }
+
+  .header-profile {
+    padding-left: 5px;
+  }
+
+  .header-avatar {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+
+  .header-profile-info {
+    display: none;
   }
 
   .header-search {
-    height: 47px;
+    grid-area: search;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    height: 42px;
+    padding: 0 12px;
+    border-radius: 10px;
+  }
+
+  .header-search input {
+    font-size: 12px;
   }
 
   .customers-header {
-    padding: 10px;
+    align-items: stretch;
+    gap: 9px;
+    padding: 9px;
+  }
+
+  .customers-search {
+    min-width: 0;
+    height: 41px;
   }
 
   .customers-actions {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
     gap: 7px;
   }
 
   .customers-actions button {
-    padding: 0 9px;
-    font-size: 11px;
+    width: 100%;
+    min-width: 0;
+    min-height: 38px;
+    padding: 6px;
+    white-space: normal;
+    text-align: center;
+    font-size: 10px;
+  }
+
+  .compact-profile {
+    justify-content: center;
+    padding: 0;
+    border: 0;
   }
 
   .compact-profile-info {
     display: none;
   }
 
-  .compact-profile {
-    padding-left: 5px;
+  .debt-modal-overlay {
+    align-items: center;
+    padding: 12px;
   }
 
   .debt-modal {
-    padding: 22px 17px;
+    width: 100%;
+    max-height: 90dvh;
+    padding: 22px 16px;
+    border-radius: 14px;
+  }
+
+  .debt-modal h2 {
+    font-size: 19px;
+  }
+
+  .debt-form-buttons {
+    flex-direction: column-reverse;
+  }
+
+  .debt-form-buttons button {
+    width: 100%;
   }
 }
 
+/* ===== JUDA KICHIK TELEFON ===== */
+
 @media (max-width: 380px) {
+  .main-header {
+    padding: 8px;
+    gap: 8px 4px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+
+  .logo-text h1 {
+    font-size: 14px;
+  }
+
   .logo-text span {
     display: none;
   }
 
-  .header-actions {
-    gap: 5px;
+  .new-debt-button {
+    min-height: 35px;
+    padding: 0 6px;
+    font-size: 9px;
   }
 
-  .compact-sms {
-    display: none;
+  .notification-button {
+    width: 32px;
+    min-height: 35px;
+  }
+
+  .header-avatar {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+}
+
+/* ===== MOBILE HEADER FINAL FIX ===== */
+
+@media (max-width: 700px) {
+  .main-header {
+    display: grid !important;
+
+    grid-template-columns: minmax(0, 1fr) !important;
+
+    grid-template-areas:
+      "brand"
+      "actions"
+      "search" !important;
+
+    gap: 10px !important;
+    width: 100% !important;
+    padding: 12px !important;
+    min-height: auto !important;
+    overflow: hidden;
+  }
+
+  /* LOGO */
+  .header-logo {
+    grid-area: brand !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: 10px !important;
+  }
+
+  .logo-icon {
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 44px !important;
+    border-radius: 12px !important;
+  }
+
+  .logo-text {
+    display: block !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+  }
+
+  .logo-text h1 {
+    display: block !important;
+    visibility: visible !important;
+    font-size: 19px !important;
+    line-height: 1.3 !important;
+    white-space: nowrap !important;
+    color: #101d3b !important;
+    margin: 0 !important;
+  }
+
+  .logo-text span {
+    display: block !important;
+    font-size: 11px !important;
+    margin-top: 3px !important;
+  }
+
+  /* ACTION BUTTONS */
+  .header-actions {
+    grid-area: actions !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: 7px !important;
+    margin: 0 !important;
+  }
+
+  .excel-button {
+    display: none !important;
+  }
+
+  .new-debt-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    min-height: 39px !important;
+
+    padding: 0 10px !important;
+    gap: 5px !important;
+
+    font-size: 11px !important;
+    border-radius: 10px !important;
+    white-space: nowrap !important;
+  }
+
+  .new-debt-plus {
+    font-size: 16px !important;
+  }
+
+  .notification-button {
+    display: flex !important;
+    flex: 0 0 39px !important;
+
+    width: 39px !important;
+    min-height: 39px !important;
+    padding: 0 !important;
+  }
+
+  .header-profile {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    padding-left: 7px !important;
+  }
+
+  .header-avatar {
+    width: 37px !important;
+    height: 37px !important;
+    flex: 0 0 37px !important;
+  }
+
+  .header-profile-info {
+    display: none !important;
+  }
+
+  /* SEARCH */
+  .header-search {
+    grid-area: search !important;
+
+    display: flex !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    height: 43px !important;
+
+    padding: 0 12px !important;
+    border-radius: 11px !important;
+  }
+
+  .header-search input {
+    min-width: 0 !important;
+    font-size: 12px !important;
+  }
+}
+
+/* ===== VERY SMALL PHONES ===== */
+
+@media (max-width: 380px) {
+  .main-header {
+    padding: 9px !important;
+    gap: 8px !important;
+  }
+
+  .logo-text h1 {
+    font-size: 17px !important;
+  }
+
+  .logo-text span {
+    display: none !important;
+  }
+
+  .new-debt-button {
+    min-height: 36px !important;
+    font-size: 10px !important;
+    padding: 0 7px !important;
+  }
+
+  .notification-button {
+    flex-basis: 35px !important;
+    width: 35px !important;
+    min-height: 36px !important;
+  }
+
+  .header-avatar {
+    width: 34px !important;
+    height: 34px !important;
+    flex-basis: 34px !important;
   }
 }
