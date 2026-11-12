@@ -1,5 +1,5 @@
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   BookOpen, LayoutDashboard, Users, Wallet, MessageSquare,
@@ -71,7 +71,7 @@ interface MapPickerProps {
 
 const MapPicker = ({ position, onPick }: MapPickerProps) => {
   useMapEvents({
-    click(event) {
+    click(event: { latlng: { lat: number; lng: number; }; }) {
       onPick(event.latlng.lat, event.latlng.lng);
     },
   });
@@ -242,7 +242,7 @@ const Sidebar = () => {
     }
   };
 
-  const handleSave = (event: FormEvent<HTMLFormElement>) => {
+  const handleSave = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitted(true);
 
@@ -576,13 +576,13 @@ const Sidebar = () => {
 
                   <MapContainer
                     key={mapPosition ? mapPosition.join(",") : "default"}
-                    center={mapPosition || [41.2995, 69.2401]}
-                    zoom={mapPosition ? 16 : 12}
+                    
+                  
                     className="h-[350px] w-full rounded-xl max-[600px]:h-[300px]"
-                    scrollWheelZoom
+                    
                   >
                     <TileLayer
-                      attribution='&copy; OpenStreetMap contributors'
+                     
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <MapPicker position={mapPosition} onPick={selectMapLocation} />
