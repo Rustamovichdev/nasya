@@ -30,7 +30,7 @@ export const InputandOutput: React.FC = () => {
       responsible: 'Azizbek Rahimov',
       role: 'MIJOZ (#86)',
       phone: '91.2--14-22',
-      amount: 1850000,
+      amount: 185000,
       status: 'Qabul qilindi',
     },
     {
