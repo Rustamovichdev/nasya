@@ -1,16 +1,55 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { Customer, Entry, EntryKind, TagKey, View } from "./turlar";
-import { TAGS, fieldClass, primaryBtn, secondaryBtn } from "./konstantalar";
-import { todayISO, addDays, formatDate, formatMoney, digitsOnly } from "./sana";
+import { TAGS, fieldClass, secondaryBtn, MAX_AMOUNT } from "./konstantalar";
+import {
+  todayISO,
+  addDays,
+  formatDate,
+  formatMoney,
+  digitsOnly,
+  formatPhoneInput,
+  isValidMobile,
+  extractMobileDigits,
+  formatAmountInput,
+} from "./sana";
 import { Icon } from "./ikonlar";
 import { Field, FormButtons } from "./ui";
 
+/* ============================ Telegram bot handler (DB keyin ulanadi) ============================ */
+
+/**
+ * Telegram botga mijozni ulash / ulanishni o'zgartirish.
+ * Hozircha local state bilan ishlaydi — keyin API/DB ga ulang.
+ *
+ * @param customerId - mijoz id
+ * @param enabled - bot ulanganmi
+ * @param phone - tozalangan telefon (+998XXXXXXXXX)
+ */
+export async function handleTelegramBotLink(
+  customerId: number | undefined,
+  enabled: boolean,
+  phone: string
+): Promise<{ ok: boolean; message?: string }> {
+  // TODO: DB / API ulanishi
+  // misol:
+  // return await api.post('/telegram/link', { customerId, enabled, phone });
+  void customerId;
+  void enabled;
+  void phone;
+  return { ok: true };
+}
+
+/* ============================ CustomerForm ============================ */
+
 export function CustomerForm({
   initial,
+  existingCustomers = [],
   onSave,
   onCancel,
 }: {
   initial?: Customer;
+  /** Telefon takrorlanishini tekshirish uchun */
+  existingCustomers?: Customer[];
   onSave: (
     form: { name: string; phone: string; tags: TagKey[]; telegram: boolean },
     firstDebt?: { amount: number; date: string; dueDate: string | null; items: string[] }
@@ -18,7 +57,7 @@ export function CustomerForm({
   onCancel: () => void;
 }) {
   const [name, setName] = useState(initial?.name ?? "");
-  const [phone, setPhone] = useState(initial?.phone ?? "+998 ");
+  const [phone, setPhone] = useState(initial?.phone ? formatPhoneInput(initial.phone) : "+998 ");
   const [tags, setTags] = useState<TagKey[]>(initial?.tags ?? []);
   const [telegram, setTelegram] = useState(initial?.telegram ?? false);
   const [debtAmount, setDebtAmount] = useState("");
@@ -26,15 +65,56 @@ export function CustomerForm({
   const [dueDate, setDueDate] = useState(addDays(todayISO(), 7));
   const [items, setItems] = useState("");
 
-  const nameError = name.trim() ? "" : "Ism kiriting";
-  const phoneError = digitsOnly(phone).length >= 9 ? "" : "Telefon raqamni to'liq kiriting";
+  const nameError = name.trim().length === 0 ? "Ism kiriting" : "";
+  const mobileDigits = extractMobileDigits(phone);
+  const phoneError =
+    mobileDigits.length === 0
+      ? ""
+      : mobileDigits.length < 9
+        ? "Telefon raqamni to'liq kiriting (9 raqam)"
+        : "";
+
+  const duplicateCustomer = useMemo(() => {
+    if (mobileDigits.length < 9) return null;
+    return (
+      existingCustomers.find(
+        (c) => extractMobileDigits(c.phone) === mobileDigits && c.id !== initial?.id
+      ) ?? null
+    );
+  }, [mobileDigits, existingCustomers, initial?.id]);
+
   const amount = Math.floor(Number(debtAmount) || 0);
-  const debtError = !initial && debtAmount !== "" && amount <= 0 ? "Summa 0 dan katta bo'lsin" : "";
+  const debtError =
+    !initial && debtAmount !== "" && amount <= 0
+      ? "Summa 0 dan katta bo'lsin"
+      : amount > MAX_AMOUNT
+        ? `Maksimal summa: ${formatMoney(MAX_AMOUNT)}`
+        : "";
 
-  const toggleTag = (key: TagKey) => setTags((prev) => (prev.includes(key) ? prev.filter((t) => t !== key) : [...prev, key]));
+  const toggleTag = (key: TagKey) =>
+    setTags((prev) => (prev.includes(key) ? prev.filter((t) => t !== key) : [...prev, key]));
 
-  const submit = () => {
-    const form = { name: name.trim(), phone: phone.trim(), tags, telegram };
+  const onPhoneChange = (raw: string) => {
+    setPhone(formatPhoneInput(raw));
+  };
+
+  const onAmountChange = (raw: string) => {
+    setDebtAmount(formatAmountInput(raw, MAX_AMOUNT));
+  };
+
+  const submit = async () => {
+    if (nameError || phoneError || !isValidMobile(phone) || debtError) return;
+
+    const form = {
+      name: name.trim(),
+      phone: phone.trim(),
+      tags,
+      telegram,
+    };
+
+    // Telegram bot ulash handler (DB keyin ulanadi)
+    await handleTelegramBotLink(initial?.id, telegram, `+998${mobileDigits}`);
+
     const firstDebt =
       !initial && amount > 0
         ? {
@@ -53,10 +133,32 @@ export function CustomerForm({
   return (
     <div className="space-y-4">
       <Field label="Ism va familiya" error={name !== "" ? nameError : ""}>
-        <input value={name} onChange={(e) => setName(e.target.value)} className={`${fieldClass} w-full`} placeholder="Masalan: Azizbek Rahimov" />
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className={`${fieldClass} w-full`}
+          placeholder="Masalan: Azizbek Rahimov"
+          // 2–3 so'z cheklovi yo'q — istalgancha so'z yoziladi
+        />
       </Field>
-      <Field label="Telefon raqami" error={phone.trim() !== "+998" ? phoneError : ""}>
-        <input value={phone} onChange={(e) => setPhone(e.target.value)} className={`${fieldClass} w-full`} placeholder="+998 (90) 123-45-67" inputMode="tel" />
+
+      <Field
+        label="Telefon raqami"
+        error={phone.trim() !== "+998" && phone.trim() !== "+998 " ? phoneError : ""}
+        hint={
+          duplicateCustomer
+            ? `Bu raqam allaqachon mavjud: ${duplicateCustomer.name}`
+            : undefined
+        }
+      >
+        <input
+          value={phone}
+          onChange={(e) => onPhoneChange(e.target.value)}
+          className={`${fieldClass} w-full ${duplicateCustomer ? "border-amber-400 focus:border-amber-500 focus:ring-amber-100" : ""}`}
+          placeholder="+998 93 642 00 14"
+          inputMode="tel"
+          autoComplete="tel"
+        />
       </Field>
 
       <div className="space-y-1">
@@ -68,7 +170,9 @@ export function CustomerForm({
               type="button"
               onClick={() => toggleTag(t.key)}
               className={`rounded-full px-3 py-1 text-xs font-medium ring-1 transition ${
-                tags.includes(t.key) ? "bg-blue-600 text-white ring-blue-600" : "bg-white text-gray-600 ring-gray-200 hover:bg-gray-50"
+                tags.includes(t.key)
+                  ? "bg-emerald-600 text-white ring-emerald-600"
+                  : "bg-white text-gray-600 ring-gray-200 hover:bg-gray-50"
               }`}
             >
               {t.label}
@@ -78,43 +182,80 @@ export function CustomerForm({
       </div>
 
       <label className="flex items-center gap-2 text-sm text-gray-700">
-        <input type="checkbox" checked={telegram} onChange={(e) => setTelegram(e.target.checked)} className="h-4 w-4 accent-blue-600" />
+        <input
+          type="checkbox"
+          checked={telegram}
+          onChange={(e) => setTelegram(e.target.checked)}
+          className="h-4 w-4 accent-emerald-600"
+        />
         Telegram bot ulangan
       </label>
 
       {!initial && (
         <>
           <div className="border-t border-gray-100 pt-3">
-            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">Birinchi nasiya (ixtiyoriy)</p>
-            <div className="grid grid-cols-2 gap-3">
+            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-400">
+              Birinchi nasiya (ixtiyoriy)
+            </p>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Field label="Summa" error={debtError}>
+                <div className="relative">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={debtAmount}
+                    onChange={(e) => onAmountChange(e.target.value)}
+                    className={`${fieldClass} w-full pr-12`}
+                    placeholder="0"
+                  />
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">
+                    so'm
+                  </span>
+                </div>
+              </Field>
+
+              {/* Olingan sana va to'lov muddati bir qatorda */}
+              <Field label="Olingan sana">
                 <input
-                  type="number"
-                  value={debtAmount}
-                  onChange={(e) => setDebtAmount(e.target.value)}
+                  type="date"
+                  value={debtDate}
+                  onChange={(e) => setDebtDate(e.target.value)}
                   className={`${fieldClass} w-full`}
-                  placeholder="0"
-                  min={0}
                 />
               </Field>
-              <Field label="Sana">
-                <input type="date" value={debtDate} onChange={(e) => setDebtDate(e.target.value)} className={`${fieldClass} w-full`} />
-              </Field>
               <Field label="To'lov muddati">
-                <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className={`${fieldClass} w-full`} />
+                <input
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                  className={`${fieldClass} w-full`}
+                />
               </Field>
             </div>
-            <Field label="Mahsulotlar (vergul bilan)">
-              <input value={items} onChange={(e) => setItems(e.target.value)} className={`${fieldClass} w-full`} placeholder="cola, non" />
-            </Field>
+            <div className="mt-3">
+              <Field label="Mahsulotlar (vergul bilan)">
+                <input
+                  value={items}
+                  onChange={(e) => setItems(e.target.value)}
+                  className={`${fieldClass} w-full`}
+                  placeholder="cola, non"
+                />
+              </Field>
+            </div>
           </div>
         </>
       )}
 
-      <FormButtons onCancel={onCancel} onSave={submit} disabled={!!nameError || !!phoneError || !!debtError} />
+      <FormButtons
+        onCancel={onCancel}
+        onSave={submit}
+        disabled={!!nameError || !isValidMobile(phone) || !!debtError}
+      />
     </div>
   );
 }
+
+/* ============================ PaymentForm ============================ */
 
 export function PaymentForm({
   balance,
@@ -130,7 +271,15 @@ export function PaymentForm({
   const [note, setNote] = useState("");
   const value = Math.floor(Number(amount) || 0);
   const error =
-    amount === "" ? "" : value <= 0 ? "Summa 0 dan katta bo'lsin" : value > balance ? `Summa qoldiqdan (${formatMoney(balance)}) katta bo'lmasin` : "";
+    amount === ""
+      ? ""
+      : value <= 0
+        ? "Summa 0 dan katta bo'lsin"
+        : value > balance
+          ? `Summa qoldiqdan (${formatMoney(balance)}) katta bo'lmasin`
+          : value > MAX_AMOUNT
+            ? `Maksimal summa: ${formatMoney(MAX_AMOUNT)}`
+            : "";
 
   return (
     <div className="space-y-4">
@@ -138,7 +287,19 @@ export function PaymentForm({
         Joriy qarz qoldig'i: <span className="font-semibold text-gray-900">{formatMoney(balance)}</span>
       </p>
       <Field label="To'lov summasi" error={error}>
-        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} className={`${fieldClass} w-full`} placeholder="0" min={0} />
+        <div className="relative">
+          <input
+            type="text"
+            inputMode="numeric"
+            value={amount}
+            onChange={(e) => setAmount(formatAmountInput(e.target.value, Math.min(balance, MAX_AMOUNT)))}
+            className={`${fieldClass} w-full pr-12`}
+            placeholder="0"
+          />
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">
+            so'm
+          </span>
+        </div>
       </Field>
       <Field label="Sana">
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className={`${fieldClass} w-full`} />
@@ -150,6 +311,8 @@ export function PaymentForm({
     </div>
   );
 }
+
+/* ============================ DebtForm ============================ */
 
 export function DebtForm({
   onSave,
@@ -163,14 +326,32 @@ export function DebtForm({
   const [dueDate, setDueDate] = useState(addDays(todayISO(), 7));
   const [items, setItems] = useState("");
   const value = Math.floor(Number(amount) || 0);
+  const amountError =
+    amount !== "" && value <= 0
+      ? "Summa 0 dan katta bo'lsin"
+      : value > MAX_AMOUNT
+        ? `Maksimal summa: ${formatMoney(MAX_AMOUNT)}`
+        : "";
 
   return (
     <div className="space-y-4">
-      <Field label="Nasiya summasi">
-        <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} className={`${fieldClass} w-full`} placeholder="0" min={0} />
+      <Field label="Nasiya summasi" error={amountError}>
+        <div className="relative">
+          <input
+            type="text"
+            inputMode="numeric"
+            value={amount}
+            onChange={(e) => setAmount(formatAmountInput(e.target.value, MAX_AMOUNT))}
+            className={`${fieldClass} w-full pr-12`}
+            placeholder="0"
+          />
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">
+            so'm
+          </span>
+        </div>
       </Field>
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Sana">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <Field label="Olingan sana">
           <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className={`${fieldClass} w-full`} />
         </Field>
         <Field label="To'lov muddati">
@@ -193,11 +374,13 @@ export function DebtForm({
               .filter(Boolean)
           )
         }
-        disabled={value <= 0}
+        disabled={value <= 0 || !!amountError}
       />
     </div>
   );
 }
+
+/* ============================ MessageForm ============================ */
 
 export function MessageForm({ view, onSave, onCancel }: { view: View; onSave: (text: string) => void; onCancel: () => void }) {
   const defaultText =
@@ -227,6 +410,8 @@ export function MessageForm({ view, onSave, onCancel }: { view: View; onSave: (t
   );
 }
 
+/* ============================ HistoryView ============================ */
+
 export function HistoryView({ entries, onEdit, onDelete }: { entries: Entry[]; onEdit: () => void; onDelete: () => void }) {
   const LABEL: Record<EntryKind, { text: string; cls: string }> = {
     debt: { text: "Nasiya", cls: "bg-red-50 text-red-600" },
@@ -238,39 +423,28 @@ export function HistoryView({ entries, onEdit, onDelete }: { entries: Entry[]; o
       {entries.length === 0 ? (
         <p className="py-6 text-center text-sm text-gray-400">Yozuvlar yo'q</p>
       ) : (
-        <ul className="max-h-80 divide-y divide-gray-100 overflow-y-auto">
+        <ul className="max-h-72 space-y-2 overflow-y-auto">
           {entries.map((e) => (
-            <li key={e.id} className="flex items-start justify-between gap-3 py-2.5 text-sm">
-              <div className="min-w-0 space-y-0.5">
-                <div className="flex items-center gap-2">
-                  <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${LABEL[e.kind].cls}`}>{LABEL[e.kind].text}</span>
+            <li key={e.id} className="flex items-start justify-between gap-3 rounded-lg border border-gray-100 px-3 py-2">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${LABEL[e.kind].cls}`}>{LABEL[e.kind].text}</span>
                   <span className="text-xs text-gray-500">{formatDate(e.date)}</span>
+                  {e.kind !== "message" && <span className="text-sm font-medium text-gray-800">{formatMoney(e.amount)}</span>}
                 </div>
-                {e.kind === "message" ? (
-                  <p className="line-clamp-2 text-xs text-gray-600">{e.note}</p>
-                ) : (
-                  <p className="text-xs text-gray-500">
-                    {e.dueDate ? `Muddat: ${formatDate(e.dueDate)}` : ""}
-                    {e.note ? ` ${e.note}` : ""}
-                  </p>
-                )}
+                {e.note && <p className="mt-1 truncate text-xs text-gray-500">{e.note}</p>}
+                {e.dueDate && <p className="mt-0.5 text-xs text-gray-400">Muddat: {formatDate(e.dueDate)}</p>}
               </div>
-              {e.kind !== "message" && (
-                <span className={`shrink-0 font-semibold ${e.kind === "debt" ? "text-red-600" : "text-emerald-600"}`}>
-                  {e.kind === "debt" ? "+" : "−"}
-                  {formatMoney(e.amount)}
-                </span>
-              )}
             </li>
           ))}
         </ul>
       )}
-      <div className="flex justify-between border-t border-gray-100 pt-3">
-        <button type="button" onClick={onDelete} className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50">
-          <Icon name="trash" /> O'chirish
+      <div className="flex justify-end gap-2 border-t border-gray-100 pt-3">
+        <button type="button" onClick={onEdit} className={secondaryBtn}>
+          Tahrirlash
         </button>
-        <button type="button" onClick={onEdit} className={`${secondaryBtn} inline-flex items-center gap-1.5`}>
-          <Icon name="edit" /> Tahrirlash
+        <button type="button" onClick={onDelete} className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700">
+          O'chirish
         </button>
       </div>
     </div>

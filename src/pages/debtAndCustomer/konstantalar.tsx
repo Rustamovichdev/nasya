@@ -3,6 +3,9 @@ import type { TagKey, Tone } from "./turlar";
 export const STORAGE_KEY = "qarz-daftar:mijozlar:v1";
 export const PAGE_SIZE = 7;
 
+/** Summa uchun maksimal qiymat (so'm) */
+export const MAX_AMOUNT = 999_999_999;
+
 export const TAGS: { key: TagKey; label: string; item: string }[] = [
   { key: "cola", label: "Cola / ichimlik", item: "cola" },
   { key: "oziq", label: "Oziq-ovqat", item: "oziq-ovqat" },
@@ -29,8 +32,10 @@ export const AVATAR_COLORS = [
 export const MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"];
 
 export const fieldClass =
-  "rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100";
+  "rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100";
+
 export const primaryBtn =
-  "rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-40";
+  "rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-40";
+
 export const secondaryBtn =
   "rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50";
