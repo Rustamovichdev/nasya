@@ -67,7 +67,7 @@ export function StatCard({
         <p className={`mt-1 truncate text-lg font-semibold ${valueClass}`}>{value}</p>
         <p className={`mt-1 text-xs ${subColor}`}>{sub}</p>
       </div>
-      <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${iconClass}`}>
+      <div className={`flex h-9 w-10 shrink-0 items-center justify-center rounded-lg ${iconClass}`}>
         <Icon name={icon} />
       </div>
     </div>
