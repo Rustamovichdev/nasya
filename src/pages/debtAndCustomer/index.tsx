@@ -167,11 +167,11 @@ const DebtAndCustomer = () => {
   const editing = modal?.kind === "customer" && modal.id !== undefined ? store.customers.find((c) => c.id === modal.id) : undefined;
 
   return (
-    <section className="space-y-4 text-gray-800">
+    <section className="mx-auto w-full max-w-[1400px] space-y-4 px-4 py-4 text-gray-800 sm:px-5 lg:px-6">
       {/* Sarlavha */}
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="text-xl font-semibold text-gray-900">Mijozlar & Nasiya Daftari</h1>
-        <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-600 ring-1 ring-blue-200">
+        <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200">
           {stats.activeCount} ta faol mijoz
         </span>
         <div className="ml-auto">
@@ -186,7 +186,7 @@ const DebtAndCustomer = () => {
 
       {/* Statistika kartalari */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard title="Jami nasiya qoldig'i" value={formatMoney(stats.totalBalance)} sub={`${stats.activeCount} ta mijozda`} subTone="green" icon="wallet" iconClass="bg-blue-50 text-blue-600" />
+        <StatCard title="Jami nasiya qoldig'i" value={formatMoney(stats.totalBalance)} sub={`${stats.activeCount} ta mijozda`} subTone="green" icon="wallet" iconClass="bg-emerald-50 text-emerald-600" />
         <StatCard title="Bugun qaytarilgan" value={formatMoney(stats.todayAmount)} valueClass="text-emerald-600" sub={`${stats.todayCount} ta to'lov qayd etildi`} subTone="green" icon="money" iconClass="bg-emerald-50 text-emerald-600" />
         <StatCard title="Muddati o'tgan qarzlar" value={formatMoney(stats.overdueSum)} valueClass="text-red-600" sub={`${stats.overdueCount} ta mijozda kechikmoqda`} subTone="red" icon="alarm" iconClass="bg-red-50 text-red-600" />
         <StatCard title="Telegram bot ulanishi" value={`${stats.telegramCount} / ${views.length} mijoz`} sub={`${stats.telegramPct}% avtomatik xabarnoma`} subTone="gray" icon="send" iconClass="bg-violet-50 text-violet-600" />
@@ -237,7 +237,7 @@ const DebtAndCustomer = () => {
           type="button"
           onClick={resetFilters}
           title="Filtrlarni tozalash"
-          className="flex items-center justify-center rounded-lg border border-gray-200 bg-white p-2 text-gray-500 hover:bg-gray-50 hover:text-blue-600"
+          className="flex items-center justify-center rounded-lg border border-gray-200 bg-white p-2 text-gray-500 hover:bg-gray-50 hover:text-emerald-600"
         >
           <Icon name="filter" />
         </button>
@@ -271,7 +271,7 @@ const DebtAndCustomer = () => {
 
       {/* Tanlanganlar paneli */}
       {selected.length > 0 && (
-        <div className="flex items-center justify-between rounded-lg bg-blue-50 px-4 py-2 text-sm text-blue-700">
+        <div className="flex items-center justify-between rounded-lg bg-emerald-50 px-4 py-2 text-sm text-emerald-700">
           <span>{selected.length} ta mijoz tanlandi</span>
           <button type="button" onClick={() => setSelected([])} className="font-medium hover:underline">
             Tanlashni bekor qilish
@@ -289,7 +289,7 @@ const DebtAndCustomer = () => {
                   type="checkbox"
                   checked={allOnPageChecked}
                   onChange={toggleAll}
-                  className="h-4 w-4 accent-blue-600"
+                  className="h-4 w-4 accent-emerald-600"
                   aria-label="Sahifadagi hammasini tanlash"
                 />
               </th>
@@ -320,7 +320,7 @@ const DebtAndCustomer = () => {
                       type="checkbox"
                       checked={selected.includes(v.id)}
                       onChange={() => toggleOne(v.id)}
-                      className="h-4 w-4 accent-blue-600"
+                      className="h-4 w-4 accent-emerald-600"
                       aria-label={`${v.name} ni tanlash`}
                     />
                   </td>
@@ -336,7 +336,7 @@ const DebtAndCustomer = () => {
                         <div className="flex items-center gap-1.5 font-medium text-gray-900">
                           <span className="truncate">{v.name}</span>
                           {v.telegram && (
-                            <span title="Telegram bot ulangan" className="text-blue-500">
+                            <span title="Telegram bot ulangan" className="text-emerald-500">
                               <Icon name="send" className="h-3.5 w-3.5" />
                             </span>
                           )}
@@ -426,6 +426,7 @@ const DebtAndCustomer = () => {
         <Modal title={editing ? `Tahrirlash — ${editing.name}` : "Yangi mijoz"} onClose={() => setModal(null)}>
           <CustomerForm
             initial={editing}
+            existingCustomers={store.customers}
             onCancel={() => setModal(null)}
             onSave={(form, firstDebt) => {
               saveCustomer(form, editing?.id, firstDebt);

@@ -36,6 +36,40 @@ export const initials = (name: string) =>
 export const digitsOnly = (s: string) => s.replace(/\D/g, "");
 export const telHref = (phone: string) => `tel:+${digitsOnly(phone)}`;
 
+/** Faqat mobil 9 raqam (operator + 7). +998 dan keyingi qism. */
+export function extractMobileDigits(phone: string): string {
+  let d = digitsOnly(phone);
+  if (d.startsWith("998")) d = d.slice(3);
+  return d.slice(0, 9);
+}
+
+/**
+ * Format: +998 XX XXX XX XX  (masalan: +998 93 642 00 14)
+ * Foydalanuvchi yozganda avtomatik bo'shliqlar qo'shiladi, 9 raqamdan oshmaydi.
+ */
+export function formatPhoneInput(raw: string): string {
+  const mobile = extractMobileDigits(raw);
+  if (mobile.length === 0) return "+998 ";
+  let out = "+998 ";
+  out += mobile.slice(0, 2);
+  if (mobile.length > 2) out += " " + mobile.slice(2, 5);
+  if (mobile.length > 5) out += " " + mobile.slice(5, 7);
+  if (mobile.length > 7) out += " " + mobile.slice(7, 9);
+  return out;
+}
+
+export function isValidMobile(phone: string): boolean {
+  return extractMobileDigits(phone).length === 9;
+}
+
+/** Summani formatlash (input uchun, so'm yozmasdan) */
+export function formatAmountInput(raw: string, max = 999_999_999): string {
+  const d = digitsOnly(raw).replace(/^0+(?=\d)/, "");
+  if (!d) return "";
+  const n = Math.min(Number(d), max);
+  return String(n);
+}
+
 export const nextId = (list: { id: number }[]) => list.reduce((m, x) => Math.max(m, x.id), 0) + 1;
 
 /* ============================ Ma'lumot qatlami ============================ */
