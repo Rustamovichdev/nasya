@@ -14,7 +14,7 @@ export function Modal({ title, onClose, children }: { title: string; onClose: ()
             <Icon name="x" />
           </button>
         </div>
-        <div className="px-5 py-4">{children}</div>
+        <div className="px-4 py-4">{children}</div>
       </div>
     </div>
   );
