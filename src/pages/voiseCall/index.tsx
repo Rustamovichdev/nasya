@@ -15,6 +15,7 @@ const VoiceCall = () => {
   const [selected, setSelected] = useState<any>(null);
   const [status, setStatus] = useState("Javob berdi");
   const [note, setNote] = useState("");
+  const [showTemplate, setShowTemplate] = useState(false);
 
   const money = (amount: number) =>
     new Intl.NumberFormat("uz-UZ").format(amount) + " so'm";
@@ -52,6 +53,8 @@ const VoiceCall = () => {
 
   return (
     <div className="voice-page">
+
+      {/* HEADER */}
       <div className="voice-heading">
         <div>
           <h1>Ovozli qo‘ng‘iroqlar</h1>
@@ -59,6 +62,7 @@ const VoiceCall = () => {
         </div>
       </div>
 
+      {/* STATISTIKA */}
       <div className="voice-stats">
         <div className="voice-card">
           <span>👥</span>
@@ -81,8 +85,19 @@ const VoiceCall = () => {
         </div>
       </div>
 
+      {/* MIJOZLAR */}
       <div className="voice-section">
-        <h2>Qarzdor mijozlar</h2>
+
+        <div className="voice-section-header">
+          <h2>Qarzdor mijozlar</h2>
+
+          <button
+            className="voice-template-btn"
+            onClick={() => setShowTemplate(true)}
+          >
+            🔊 Ovozli habar shablomni ko‘rish
+          </button>
+        </div>
 
         <input
           className="voice-search"
@@ -92,7 +107,7 @@ const VoiceCall = () => {
         />
 
         <div className="voice-table-wrap">
-          <table>
+          <table className="voice-customer-table">
             <thead>
               <tr>
                 <th>#</th>
@@ -109,26 +124,32 @@ const VoiceCall = () => {
                   <td>{index + 1}</td>
                   <td>{customer.name}</td>
                   <td>{customer.phone}</td>
+
                   <td className="voice-debt">
                     {money(customer.debt)}
                   </td>
+
+                  {/* TUGMALAR ENG O'NG TOMONDA */}
                   <td>
-                    <button
-                      className="voice-call-btn"
-                      onClick={() => callCustomer(customer)}
-                    >
-                      📞 Qo‘ng‘iroq
-                    </button>
-                    <button
-                      className="voice-result-btn"
-                      onClick={() => {
-                        setSelected(customer);
-                        setStatus("Javob berdi");
-                        setNote("");
-                      }}
-                    >
-                      Natija
-                    </button>
+                    <div className="voice-actions">
+                      <button
+                        className="voice-call-btn"
+                        onClick={() => callCustomer(customer)}
+                      >
+                        📞 Qo‘ng‘iroq
+                      </button>
+
+                      <button
+                        className="voice-result-btn"
+                        onClick={() => {
+                          setSelected(customer);
+                          setStatus("Javob berdi");
+                          setNote("");
+                        }}
+                      >
+                        Natija
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -143,6 +164,7 @@ const VoiceCall = () => {
         </div>
       </div>
 
+      {/* QO'NG'IROQLAR TARIXI */}
       <div className="voice-section">
         <h2>Qo‘ng‘iroqlar tarixi</h2>
 
@@ -184,7 +206,9 @@ const VoiceCall = () => {
 
               {history.length === 0 && (
                 <tr>
-                  <td colSpan={6}>Hozircha qo‘ng‘iroqlar mavjud emas</td>
+                  <td colSpan={6}>
+                    Hozircha qo‘ng‘iroqlar mavjud emas
+                  </td>
                 </tr>
               )}
             </tbody>
@@ -192,14 +216,49 @@ const VoiceCall = () => {
         </div>
       </div>
 
+      {/* OVOZLI HABAR SHABLONI */}
+      {showTemplate && (
+        <div
+          className="voice-overlay"
+          onClick={() => setShowTemplate(false)}
+        >
+          <div
+            className="voice-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>🔊 Ovozli habar shabloni</h2>
+
+            <p>
+
+                     Assalomu alaykum! Siz bilan do‘konimizdan
+              olgan mahsulotingiz bo‘yicha bog‘lanmoqdamiz.
+              Sizda to‘lanmagan qarzdorlik mavjud.
+              Iltimos, qarzdorlikni imkon qadar tezroq
+              to‘lashingizni so‘raymiz.
+              
+
+            </p>
+
+            <div className="voice-modal-actions">
+              <button onClick={() => setShowTemplate(false)}>
+                Yopish
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* QO'NG'IROQ NATIJASI */}
       {selected && (
         <div className="voice-overlay">
           <div className="voice-modal">
             <h2>Qo‘ng‘iroq natijasi</h2>
+
             <p>{selected.name}</p>
             <p>{selected.phone}</p>
 
             <label>Qo‘ng‘iroq holati</label>
+
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
@@ -210,6 +269,7 @@ const VoiceCall = () => {
             </select>
 
             <label>Izoh</label>
+
             <textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
@@ -220,6 +280,7 @@ const VoiceCall = () => {
               <button onClick={() => setSelected(null)}>
                 Bekor qilish
               </button>
+
               <button onClick={saveResult}>
                 Saqlash
               </button>
@@ -227,6 +288,7 @@ const VoiceCall = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };
